@@ -7,6 +7,14 @@
     tools:context=".MainActivity">
 
     <TextView
+        app:layout_constraintBottom_toTopOf="@id/greetings"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/restView"
+        android:text="Rest API"/>
+
+    <TextView
         android:id="@+id/screenText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

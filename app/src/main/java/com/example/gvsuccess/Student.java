@@ -6,8 +6,7 @@ public class Student {
     private String lastName;
     private String email;
     private String password; // TODO: Do we really need password in this class?
-    private String successCenterCode;
-    private boolean available;
+
 
     public Student(String ID, String fName, String lName,
                    String email, String password,
@@ -18,8 +17,6 @@ public class Student {
         this.lastName = lName;
         this.email = email;
         this.password = password;
-        this.successCenterCode = successCenterCode;
-        this.available = available;
     }
 
     public String getStudentID() {
@@ -62,19 +59,6 @@ public class Student {
         this.password = password;
     }
 
-    public String getSuccessCenterCode() {
-        return successCenterCode;
-    }
 
-    public void setSuccessCenterCode(String successCenterCode) {
-        this.successCenterCode = successCenterCode;
-    }
 
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
 }

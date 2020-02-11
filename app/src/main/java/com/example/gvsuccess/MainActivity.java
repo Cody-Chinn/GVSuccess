@@ -11,12 +11,14 @@ import com.example.gvsuccess.R;
 
 public class MainActivity extends AppCompatActivity {
     private Button chem;
+    private Button cis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Button command to access chemistry page
         chem = findViewById(R.id.chemB);
         chem.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -24,10 +26,26 @@ public class MainActivity extends AppCompatActivity {
                 openChem();
             }
         });
+
+        //Button command to access CIS page
+        cis = findViewById(R.id.cisB);
+        cis.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openCIS();
+            }
+        });
     }
 
+    //Open Chemistry activity
     public void openChem(){
         Intent intent = new Intent(this, chemPage.class);
+        startActivity(intent);
+    }
+
+    //Open CIS activity
+    public void openCIS(){
+        Intent intent = new Intent(this, cisPage.class);
         startActivity(intent);
     }
 }

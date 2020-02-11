@@ -39,10 +39,10 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <Button
-        android:id="@+id/csB"
+        android:id="@+id/cisB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Computer Science"
+        android:text="Computing and Information Systems"
         android:textSize="12pt"
         android:gravity="left"
         android:layout_marginTop="3pt"
@@ -57,7 +57,7 @@
         android:textSize="12pt"
         android:gravity="left"
         android:layout_marginTop="3pt"
-        app:layout_constraintTop_toBottomOf="@id/csB"
+        app:layout_constraintTop_toBottomOf="@id/cisB"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <Button

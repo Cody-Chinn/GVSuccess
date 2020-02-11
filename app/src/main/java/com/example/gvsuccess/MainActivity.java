@@ -10,8 +10,7 @@ import android.widget.Button;
 import com.example.gvsuccess.R;
 
 public class MainActivity extends AppCompatActivity {
-    private Button chem;
-    private Button cis;
+    private Button chem, cis, math, stat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +34,24 @@ public class MainActivity extends AppCompatActivity {
                 openCIS();
             }
         });
+
+        //Button command to access Math page
+        math = findViewById(R.id.mathB);
+        math.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMath();
+            }
+        });
+
+        //Button command to access Stats page
+        stat = findViewById(R.id.statB);
+        stat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openStats();
+            }
+        });
     }
 
     //Open Chemistry activity
@@ -46,6 +63,18 @@ public class MainActivity extends AppCompatActivity {
     //Open CIS activity
     public void openCIS(){
         Intent intent = new Intent(this, cisPage.class);
+        startActivity(intent);
+    }
+
+    //Open Math activity
+    public void openMath(){
+        Intent intent = new Intent(this, mathPage.class);
+        startActivity(intent);
+    }
+
+    //Opne Stats Activity
+    public void openStats(){
+        Intent intent = new Intent(this, statsPage.class);
         startActivity(intent);
     }
 }

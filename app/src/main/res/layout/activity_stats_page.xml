@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cisPage">
+    tools:context=".statsPage">
 
     <TextView
-        android:id="@+id/cisHeader"
+        android:id="@+id/statsHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Computing and Information Systems"
-        android:textSize="16pt"
+        android:text="Statistics"
+        android:textSize="18pt"
         android:textStyle="bold"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "891760358455",
+    "firebase_url": "https://gvsuccess-c22af.firebaseio.com",
+    "project_id": "gvsuccess-c22af",
+    "storage_bucket": "gvsuccess-c22af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891760358455:android:5fe79f6e7e9e94f811bbb2",
+        "android_client_info": {
+          "package_name": "com.example.gvsuccess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891760358455-u0o247lftoqq36fc8ooljng83m3b96n1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANJhhya8pePZT1ABO8GKs5nmyclvRJnyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891760358455-u0o247lftoqq36fc8ooljng83m3b96n1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

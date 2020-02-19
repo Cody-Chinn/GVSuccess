@@ -1,26 +1,24 @@
 package com.example.gvsuccess;
 
 public class SuccessCenter {
-    private String successCenterCode;
     private String address;
-    private boolean open;
+    private String description;
     private int numAvailableTutors;
+    private boolean open;
+    private String successCenterCode;
+    private String title;
 
-    public SuccessCenter(String successCenterCode,
-                         String address, boolean open,
-                         int numAvailableTutors) {
-        this.successCenterCode = successCenterCode;
+    public SuccessCenter(){
+
+    }
+
+    public SuccessCenter(String address, String description, int numAvailableTutors, boolean open, String successCenterCode, String title) {
         this.address = address;
-        this.open = open;
+        this.description = description;
         this.numAvailableTutors = numAvailableTutors;
-    }
-
-    public String getSuccessCenterCode() {
-        return successCenterCode;
-    }
-
-    public void setSuccessCenterCode(String successCenterCode) {
+        this.open = open;
         this.successCenterCode = successCenterCode;
+        this.title = title;
     }
 
     public String getAddress() {
@@ -31,12 +29,12 @@ public class SuccessCenter {
         this.address = address;
     }
 
-    public boolean isOpen() {
-        return open;
+    public String getDescription() {
+        return description;
     }
 
-    public void setOpen(boolean open) {
-        this.open = open;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getNumAvailableTutors() {
@@ -45,5 +43,29 @@ public class SuccessCenter {
 
     public void setNumAvailableTutors(int numAvailableTutors) {
         this.numAvailableTutors = numAvailableTutors;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    public String getSuccessCenterCode() {
+        return successCenterCode;
+    }
+
+    public void setSuccessCenterCode(String successCenterCode) {
+        this.successCenterCode = successCenterCode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

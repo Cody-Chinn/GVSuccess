@@ -2,24 +2,27 @@ package com.example.gvsuccess;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.util.Log;
 
-import com.example.gvsuccess.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class MainActivity extends AppCompatActivity {
-    private Button chem, cis, math, stat;
+import java.util.ArrayList;
 
-    final private String TAG = "MAIN ACTIVITY";
+public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private Adapter adapter;
+    private ArrayList<SuccessCenter> items;
+    private Context context;
 
     // Access a Cloud Firestore instance from your Activity
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -29,41 +32,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Button command to access chemistry page
-        chem = findViewById(R.id.chemB);
-        chem.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openChem();
-            }
-        });
-
-        //Button command to access CIS page
-        cis = findViewById(R.id.cisB);
-        cis.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openCIS();
-            }
-        });
-
-        //Button command to access Math page
-        math = findViewById(R.id.mathB);
-        math.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMath();
-            }
-        });
-
-        //Button command to access Stats page
-        stat = findViewById(R.id.statB);
-        stat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openStats();
-            }
-        });
+        recyclerView = findViewById(R.id.recyclerView);
+        items = new ArrayList<>();
+        context = this;
 
         db.collection("success centers")
         .get()
@@ -72,15 +43,45 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-
-        /* The output of this log is
-        D/MAIN ACTIVITY: chemistry => {open flag=true, address=399 PAD, success center code=GVSU-CHM, field=chemistry, num available tutors=5}
-         math => {open flag=true, address=MAK A-2-601, success center code=GVSU-MTH, field=mathematics, num available tutors=3} */
-
+                        if (document.exists()) {
+                            SuccessCenter successCenter = document.toObject(SuccessCenter.class);
+                            items.add(successCenter);
+                        }
                     }
+
+                    createCardViews();
                 } else {
-                    Log.w(TAG, "Error getting documents.", task.getException());
+                    // get documents failed
+                }
+            }
+        });
+    }
+
+    private void createCardViews() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        adapter = new Adapter(context, items);
+        recyclerView.setAdapter(adapter);
+        setupCardViewClickListeners();
+    }
+
+    private void setupCardViewClickListeners() {
+        adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                SuccessCenter successCenter = items.get(position);
+                switch (successCenter.getSuccessCenterCode()) {
+                    case "GVSU-CHM":
+                        openChem();
+                        break;
+                    case "GVSU-MTH":
+                        openMath();
+                        break;
+                    case "GVSU-CIS":
+                        openCIS();
+                        break;
+                    case "GVSU-STA":
+                        openStats();
+                        break;
                 }
             }
         });

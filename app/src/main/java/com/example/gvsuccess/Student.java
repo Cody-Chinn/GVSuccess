@@ -6,17 +6,25 @@ public class Student {
     private String lastName;
     private String email;
     private String password; // TODO: Do we really need password in this class?
+    private String successCenterCode;
+
+
+    public Student() {};
+
 
 
     public Student(String ID, String fName, String lName,
                    String email, String password,
-                   String successCenterCode, boolean available) {
+                   String successCenterCode) {
 
         this.studentID = ID;
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
         this.password = password;
+        this.successCenterCode = successCenterCode;
+
+
     }
 
     public String getStudentID() {
@@ -59,6 +67,13 @@ public class Student {
         this.password = password;
     }
 
+    public String getSuccessCenterCode() {
+        return successCenterCode;
+    }
+
+    public void setSuccessCenterCode(String successCenterCode) {
+        this.successCenterCode = successCenterCode;
+    }
 
 
 }

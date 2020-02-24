@@ -8,6 +8,8 @@ public class ScheduledSession {
     public long startTime; // Measured in milliseconds from midnight
     private long estimatedSessionLength;
 
+    public ScheduledSession(){};
+
     public ScheduledSession(String tutorID, String studentID,
                             String successCenterCode, String date,
                             long startTime, long estimatedSessionLength) {

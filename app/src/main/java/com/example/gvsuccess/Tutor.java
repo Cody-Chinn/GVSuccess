@@ -9,6 +9,8 @@ public class Tutor {
     private String successCenterCode;
     private boolean available;
 
+    public Tutor(){};
+
     public Tutor(String tutorID, String firstName, String lastName,
                  String email, String password, String successCenterCode,
                  boolean available) {

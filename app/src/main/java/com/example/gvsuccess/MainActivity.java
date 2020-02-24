@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void createCardViews() {
+    public void createCardViews() {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new Adapter(context, items);
         recyclerView.setAdapter(adapter);

@@ -20,7 +20,7 @@ public class schedulingPage extends AppCompatActivity {
         //Drop down center selection
         Spinner centerSpinner = findViewById(R.id.centerSelection);
         //Drop down class selection
-        Spinner classSpinner = findViewById(R.id.classSelection);
+        //Spinner classSpinner = findViewById(R.id.classSelection);
 
         //Center spinner options
         List<String> centers = new ArrayList<>();
@@ -31,17 +31,17 @@ public class schedulingPage extends AppCompatActivity {
         centers.add("Statistics");
 
         //Class spinner options
-        List<String> classes = new ArrayList<>();
-        classes.add("Other");
+        //List<String> classes = new ArrayList<>();
+        //classes.add("Other");
 
         //Adapter for spinner
         ArrayAdapter<String> centerAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.schedule_spinner, centers);
         centerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         centerSpinner.setAdapter(centerAdapter);
 
-        ArrayAdapter<String> classAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.schedule_spinner, classes);
-        classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        classSpinner.setAdapter(classAdapter);
+        //ArrayAdapter<String> classAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.schedule_spinner, classes);
+        //classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //classSpinner.setAdapter(classAdapter);
 
         //On click listeners
         centerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -73,19 +73,34 @@ public class schedulingPage extends AppCompatActivity {
                 else
                     classes.clear();
                 classes.add("Other");
+
+                Spinner classSpinner = findViewById(R.id.classSelection);
+                ArrayAdapter<String> classAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.schedule_spinner, classes);
+                classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                classSpinner.setAdapter(classAdapter);
+
+                classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                        String item = parent.getItemAtPosition(position).toString();
+                        Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {}
+                });
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-                String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+//        classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+//                String item = parent.getItemAtPosition(position).toString();
+//                Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {}
+//        });
     }
 }

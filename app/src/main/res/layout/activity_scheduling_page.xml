@@ -24,9 +24,9 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Full Name"
-        android:textSize="12pt"
+        android:textSize="10pt"
         android:gravity="left"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="5pt"
         android:layout_marginHorizontal="10pt"
         app:layout_constraintTop_toBottomOf="@id/schedulingHeader"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -40,9 +40,9 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:hint="Email"
-        android:textSize="12pt"
+        android:textSize="10pt"
         android:gravity="left"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="5pt"
         android:layout_marginHorizontal="10pt"
         app:layout_constraintTop_toBottomOf="@id/scheduleName"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -53,7 +53,7 @@
         android:id="@+id/centerSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="5pt"
         android:layout_marginHorizontal="10pt"
         app:layout_constraintTop_toBottomOf="@id/scheduleEmail"
         app:layout_constraintLeft_toLeftOf="parent"/>
@@ -62,9 +62,31 @@
         android:id="@+id/classSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="5pt"
         android:layout_marginHorizontal="10pt"
         app:layout_constraintTop_toBottomOf="@id/centerSelection"
         app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10pt"
+        android:layout_marginHorizontal="10pt"
+        app:layout_constraintTop_toBottomOf="@id/classSelection"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <Button
+        android:id="@+id/submitB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10pt"
+        android:layout_marginHorizontal="10pt"
+        android:text="Submit"
+        android:textSize="10pt"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/timePicker"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

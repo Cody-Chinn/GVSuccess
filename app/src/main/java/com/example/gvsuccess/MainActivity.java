@@ -1,55 +1,88 @@
 package com.example.gvsuccess;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
-import com.example.gvsuccess.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private Button chem, cis, math, stat;
+
+    private RecyclerView recyclerView;
+    private Adapter adapter;
+    private ArrayList<SuccessCenter> items;
+    private Context context;
+
+    // Access a Cloud Firestore instance from your Activity
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Button command to access chemistry page
-        chem = findViewById(R.id.chemB);
-        chem.setOnClickListener(new View.OnClickListener(){
+        recyclerView = findViewById(R.id.recyclerView);
+        items = new ArrayList<>();
+        context = this;
+
+        db.collection("success centers")
+        .get()
+        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onClick(View v){
-                openChem();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            SuccessCenter successCenter = document.toObject(SuccessCenter.class);
+                            items.add(successCenter);
+                        }
+                    }
+
+                    createCardViews();
+                } else {
+                    // get documents failed
+                }
             }
         });
+    }
 
-        //Button command to access CIS page
-        cis = findViewById(R.id.cisB);
-        cis.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                openCIS();
-            }
-        });
+    public void createCardViews() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        adapter = new Adapter(context, items);
+        recyclerView.setAdapter(adapter);
+        setupCardViewClickListeners();
+    }
 
-        //Button command to access Math page
-        math = findViewById(R.id.mathB);
-        math.setOnClickListener(new View.OnClickListener() {
+    private void setupCardViewClickListeners() {
+        adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                openMath();
-            }
-        });
-
-        //Button command to access Stats page
-        stat = findViewById(R.id.statB);
-        stat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openStats();
+            public void onItemClick(int position) {
+                SuccessCenter successCenter = items.get(position);
+                switch (successCenter.getSuccessCenterCode()) {
+                    case "GVSU-CHM":
+                        openChem();
+                        break;
+                    case "GVSU-MTH":
+                        openMath();
+                        break;
+                    case "GVSU-CIS":
+                        openCIS();
+                        break;
+                    case "GVSU-STA":
+                        openStats();
+                        break;
+                }
             }
         });
     }

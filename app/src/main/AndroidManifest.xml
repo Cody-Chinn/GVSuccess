@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".schedulingPage"></activity>
+        <activity android:name=".statsPage" />
+        <activity android:name=".mathPage" />
+        <activity android:name=".cisPage" />
+        <activity android:name=".chemPage" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

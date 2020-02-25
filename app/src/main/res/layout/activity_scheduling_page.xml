@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".schedulingPage">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/schedulingHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/schedule_header"
+                android:textSize="16pt"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/scheduleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5pt"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/enter_name"
+                android:inputType="textPersonName"
+                android:textSize="10pt" />
+
+            <EditText
+                android:id="@+id/scheduleEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5pt"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="@string/enter_email"
+                android:inputType="textEmailAddress"
+                android:textSize="10pt" />
+
+            <Spinner
+                android:id="@+id/centerSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5pt"/>
+
+            <Spinner
+                android:id="@+id/classSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5pt"/>
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5pt"
+                android:layout_margin="5pt"/>
+
+            <Button
+                android:id="@+id/submitB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5pt"
+                android:gravity="center"
+                android:text="@string/submit"
+                android:textSize="10pt"/>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

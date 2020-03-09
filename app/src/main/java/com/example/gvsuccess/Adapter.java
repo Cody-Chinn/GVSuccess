@@ -42,14 +42,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         // bind the textview with data received
         SuccessCenter successCenter = data.get(position);
-        String numTutors = successCenter.getNumAvailableTutors() + " Tutors Avalable";
+        String openHours = "<ADD HOURS HERE FROM DB>";
+        String waitTime = "<ADD ESTIMATED WAIT TIME HERE>";
         String open = successCenter.isOpen()? "Open": "Closed";
 
 
         holder.textTitle.setText(successCenter.getTitle());
         holder.textLocation.setText((successCenter.getAddress()));
-        holder.textNumTutors.setText(numTutors);
-        holder.textDescr.setText(successCenter.getDescription());
+        holder.textHours.setText(openHours);
+        holder.textWaitTime.setText(waitTime);
         holder.textOpen.setText(open);
     }
 
@@ -60,14 +61,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textTitle, textLocation, textNumTutors, textDescr, textOpen;
+        TextView textTitle, textLocation, textHours, textWaitTime, textOpen;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.textTitle);
             textLocation = itemView.findViewById(R.id.textLocation);
-            textNumTutors = itemView.findViewById(R.id.textNumTutors);
-            textDescr = itemView.findViewById(R.id.textDescr);
+            textHours = itemView.findViewById(R.id.textHours);
+            textWaitTime = itemView.findViewById(R.id.textWaitTime);
             textOpen = itemView.findViewById(R.id.textOpen);
 
             itemView.setOnClickListener(new View.OnClickListener() {

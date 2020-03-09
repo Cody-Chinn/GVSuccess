@@ -44,16 +44,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5pt"
-                android:layout_margin="5pt"/>
+                android:layout_margin="5pt" />
 
             <Button
                 android:id="@+id/submitB"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5pt"
                 android:gravity="center"
                 android:text="@string/submit"
-                android:textSize="10pt"/>
+                android:textSize="10pt"
+                android:background="@color/colorPrimary"/>
         </LinearLayout>
     </ScrollView>
 

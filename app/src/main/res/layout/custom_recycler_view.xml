@@ -38,8 +38,7 @@
                 android:id="@+id/textOpen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="5pt"
                 android:text="Open"
                 app:layout_constraintBottom_toTopOf="@+id/textLocation"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,37 +50,37 @@
                 android:id="@+id/textLocation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5pt"
                 android:text="Location"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/textNumTutors"
+                app:layout_constraintBottom_toTopOf="@+id/textHours"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textTitle" />
 
             <TextView
-                android:id="@+id/textNumTutors"
+                android:id="@+id/textHours"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5pt"
                 android:text="Number of Tutors"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/textDescr"
+                app:layout_constraintBottom_toTopOf="@+id/textWaitTime"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textLocation" />
 
             <TextView
-                android:id="@+id/textDescr"
+                android:id="@+id/textWaitTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5pt"
                 android:text="Description"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textNumTutors" />
+                app:layout_constraintTop_toBottomOf="@id/textHours" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

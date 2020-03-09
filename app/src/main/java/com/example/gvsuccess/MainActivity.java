@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         items = new ArrayList<>();
         context = this;
-
         db.collection("success centers")
         .get()
         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

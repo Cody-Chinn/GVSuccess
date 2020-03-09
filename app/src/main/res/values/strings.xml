@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GV Success</string>
-    <string name="schedule_header">Schedule and Appointment</string>
+    <string name="schedule_header">Schedule an Appointment</string>
     <string name="enter_name">Full Name</string>
     <string name="enter_email">Email</string>
     <string name="submit">Submit</string>

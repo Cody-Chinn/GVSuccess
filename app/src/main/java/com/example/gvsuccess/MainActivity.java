@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         context = this;
 
         db.collection("success centers")
-        .get()
-        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -65,49 +64,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupCardViewClickListeners() {
+        final Intent intent = new Intent(this, schedulingPage.class);
+        final String[] str = new String[1];
+        str[0] = "";
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SuccessCenter successCenter = items.get(position);
                 switch (successCenter.getSuccessCenterCode()) {
                     case "GVSU-CHM":
-                        openChem();
+                        str[0] = "Chemistry Center";
                         break;
                     case "GVSU-MTH":
-                        openMath();
+                        str[0] = "Math Center";
                         break;
                     case "GVSU-CIS":
-                        openCIS();
+                        str[0] = "CIS Center";
                         break;
                     case "GVSU-STA":
-                        openStats();
+                        str[0] = "Statistics Center";
                         break;
+                    default:
+                        str[0] = "Select a Center";
                 }
+                intent.putExtra("centerName", str[0]);
+                startActivity(intent);
             }
         });
-    }
-
-    //Open Chemistry activity
-    public void openChem(){
-        Intent intent = new Intent(this, chemPage.class);
-        startActivity(intent);
-    }
-
-    //Open CIS activity
-    public void openCIS(){
-        Intent intent = new Intent(this, cisPage.class);
-        startActivity(intent);
-    }
-
-    //Open Math activity
-    public void openMath(){
-        Intent intent = new Intent(this, mathPage.class);
-        startActivity(intent);
-    }
-
-    //Opne Stats Activity
-    public void openStats(){
-        Intent intent = new Intent(this, statsPage.class);
-        startActivity(intent);
     }
 }

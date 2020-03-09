@@ -1,6 +1,8 @@
 package com.example.gvsuccess;
 
-public class SuccessCenter {
+import java.io.Serializable;
+
+public class SuccessCenter implements Serializable {
     private String address;
     private String description;
     private int numAvailableTutors;

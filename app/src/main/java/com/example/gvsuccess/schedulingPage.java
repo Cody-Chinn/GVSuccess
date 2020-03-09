@@ -22,30 +22,30 @@ public class schedulingPage extends AppCompatActivity {
 
         //Get name of center clicked
         Intent i = getIntent();
-        String centerClicked = i.getStringExtra("centerName");
+        SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
 
         //Set title for center clicked
         TextView tv = findViewById(R.id.centerTitle);
-        tv.setText(centerClicked);
+        tv.setText(successCenter.getTitle());
 
         //On click listeners
         List<String> classes = new ArrayList<>();
-        if(centerClicked.equals("Chemistry Center")){
+        if(successCenter.getTitle().equals("Chemistry")){
             classes.clear();
             classes.add("CHM 115");
             classes.add("CHM 116");
         }
-        else if(centerClicked.equals("CIS Center")){
+        else if(successCenter.getTitle().equals("Computer Science Tutor Center")){
             classes.clear();
             classes.add("CIS 162");
             classes.add("CIS 163");
         }
-        else if(centerClicked.equals("Math Center")){
+        else if(successCenter.getTitle().equals("Math Center")){
             classes.clear();
             classes.add("MTH 201");
             classes.add("MTH 202");
         }
-        else if(centerClicked.equals("Statistics Center")){
+        else if(successCenter.getTitle().equals("Statistics Tutor Center")){
             classes.clear();
             classes.add("STA 215");
         }

@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("891760358455-0mns4d9tkq7apdtat57s7ujb7t20s83f.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 

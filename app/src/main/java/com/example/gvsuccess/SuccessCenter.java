@@ -1,24 +1,28 @@
 package com.example.gvsuccess;
 
-public class SuccessCenter {
+import java.io.Serializable;
+
+public class SuccessCenter implements Serializable {
     private String address;
     private String description;
     private int numAvailableTutors;
     private boolean open;
     private String successCenterCode;
     private String title;
+    private String key;
 
     public SuccessCenter(){
 
     }
 
-    public SuccessCenter(String address, String description, int numAvailableTutors, boolean open, String successCenterCode, String title) {
+    public SuccessCenter(String address, String description, int numAvailableTutors, boolean open, String successCenterCode, String title, String key) {
         this.address = address;
         this.description = description;
         this.numAvailableTutors = numAvailableTutors;
         this.open = open;
         this.successCenterCode = successCenterCode;
         this.title = title;
+        this.key = key;
     }
 
     public String getAddress() {
@@ -68,4 +72,8 @@ public class SuccessCenter {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getKey() { return key; }
+
+    public void setKey(String key) { this.key = key; }
 }

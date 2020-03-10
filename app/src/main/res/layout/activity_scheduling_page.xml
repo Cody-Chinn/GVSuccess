@@ -24,33 +24,14 @@
                 android:textSize="16pt"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/scheduleName"
+            <TextView
+                android:id="@+id/centerTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5pt"
-                android:ems="10"
-                android:gravity="start"
-                android:hint="@string/enter_name"
-                android:inputType="textPersonName"
-                android:textSize="10pt" />
-
-            <EditText
-                android:id="@+id/scheduleEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5pt"
-                android:ems="10"
-                android:gravity="start"
-                android:hint="@string/enter_email"
-                android:inputType="textEmailAddress"
-                android:textSize="10pt" />
-
-            <Spinner
-                android:id="@+id/centerSelection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5pt"/>
+                android:text=""
+                android:textSize="10pt"
+                android:gravity="left"/>
 
             <Spinner
                 android:id="@+id/classSelection"
@@ -63,16 +44,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5pt"
-                android:layout_margin="5pt"/>
+                android:layout_margin="5pt" />
 
             <Button
                 android:id="@+id/submitB"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5pt"
                 android:gravity="center"
                 android:text="@string/submit"
-                android:textSize="10pt"/>
+                android:textSize="10pt"
+                android:background="@color/colorPrimary"/>
         </LinearLayout>
     </ScrollView>
 

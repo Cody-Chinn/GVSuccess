@@ -1,7 +1,6 @@
 package com.example.gvsuccess;
 
 public class Tutor {
-    private String tutorID;
     private String firstName;
     private String lastName;
     private String email;
@@ -10,10 +9,9 @@ public class Tutor {
 
     public Tutor(){};
 
-    public Tutor(String tutorID, String firstName, String lastName,
+    public Tutor(String firstName, String lastName,
                  String email, String successCenterCode,
                  boolean available) {
-        this.tutorID = tutorID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -21,13 +19,6 @@ public class Tutor {
         this.available = available;
     }
 
-    public String getTutorID() {
-        return tutorID;
-    }
-
-    public void setTutorID(String tutorID) {
-        this.tutorID = tutorID;
-    }
 
     public String getFirstName() {
         return firstName;

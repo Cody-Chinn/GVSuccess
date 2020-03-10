@@ -133,7 +133,7 @@ public class schedulingPage extends AppCompatActivity {
                         SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
 
                         long time = hour*100 + minute;
-                        boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getTutorID(), "03:09:2020", time, 15);
+                        boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getEmail(), "03:09:2020", time, 15);
 
                         if(scheduled == false) {
                             Log.v("sched", "Scheduling failed.");

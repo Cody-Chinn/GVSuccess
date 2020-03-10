@@ -65,11 +65,11 @@ public class DataAccess {
                 });
     }
     public void addTutor(Tutor tut) {
-        db.collection("tutors").document(tut.getTutorID()).set(tut);
+        db.collection("tutors").document(tut.getEmail()).set(tut);
     }
 
     public void deleteTutor(Tutor tut) {
-        db.collection("tutors").document(tut.getTutorID())
+        db.collection("tutors").document(tut.getEmail())
                 .delete()
                 .addOnFailureListener(new OnFailureListener() {
                     @Override

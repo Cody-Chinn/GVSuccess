@@ -44,16 +44,13 @@ public class MainActivity extends AppCompatActivity {
         centers.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
             public void onSuccess(QuerySnapshot snapshot) {
-
                 for (QueryDocumentSnapshot doc : snapshot) {
                     if(doc.exists()) {
                         SuccessCenter cent = doc.toObject(SuccessCenter.class);
                         items.add(cent);
                     }
                 }
-
                 createCardViews();
-
             }
         });
 

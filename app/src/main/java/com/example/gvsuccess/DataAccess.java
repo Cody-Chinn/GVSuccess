@@ -123,5 +123,15 @@ public class DataAccess {
         Task<QuerySnapshot> task = db.collection("success centers").get();
         return task;
     }
+
+    public Task<QuerySnapshot> getStudents() {
+        Task<QuerySnapshot> task = db.collection("students").get();
+        return task;
+    }
+
+    public Task<QuerySnapshot> getSessions() {
+        Task<QuerySnapshot> task = db.collection("scheduled session").get();
+        return task;
+    }
 }
 

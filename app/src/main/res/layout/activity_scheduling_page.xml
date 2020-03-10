@@ -37,7 +37,13 @@
                 android:id="@+id/classSelection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5pt"/>
+                android:layout_margin="5pt" />
+
+            <Spinner
+                android:id="@+id/tutorSelection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5pt" />
 
             <TimePicker
                 android:id="@+id/timePicker"

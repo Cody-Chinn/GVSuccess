@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 for (QueryDocumentSnapshot doc : snapshot) {
                     if(doc.exists()) {
                         SuccessCenter cent = doc.toObject(SuccessCenter.class);
+                        cent.setKey(doc.getId());
                         items.add(cent);
                     }
                 }

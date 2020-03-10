@@ -80,7 +80,11 @@ public class DataAccess {
     }
 
     public void addSession(ScheduledSession session) {
-        db.collection("scheduled session").document(session.getStudentID()).set(session);
+        String seshID = session.getStudentID() + ":"
+                + session.getTutorID() + ":"
+                + session.getDate() + ":"
+                + session.getStartTime();
+        db.collection("scheduled session").document(seshID).set(session);
     }
 
     public void deleteSession(ScheduledSession session) {
@@ -131,6 +135,14 @@ public class DataAccess {
 
     public Task<QuerySnapshot> getSessions() {
         Task<QuerySnapshot> task = db.collection("scheduled session").get();
+        return task;
+    }
+
+    public Task<QuerySnapshot> getCourse(SuccessCenter center) {
+        Task<QuerySnapshot> task = db.collection("success centers")
+                .document(center.getKey())
+                .collection("coursesOffered")
+                .get();
         return task;
     }
 }

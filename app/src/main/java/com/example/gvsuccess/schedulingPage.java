@@ -1,5 +1,6 @@
 package com.example.gvsuccess;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,10 +11,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class schedulingPage extends AppCompatActivity {
+
+    private List<String> classes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,31 +38,31 @@ public class schedulingPage extends AppCompatActivity {
         TextView tv = findViewById(R.id.centerTitle);
         tv.setText(successCenter.getTitle());
 
-        //On click listeners
-        List<String> classes = new ArrayList<>();
-        if(successCenter.getTitle().equals("Chemistry")){
-            classes.clear();
-            classes.add("CHM 115");
-            classes.add("CHM 116");
-        }
-        else if(successCenter.getTitle().equals("Computer Science Tutor Center")){
-            classes.clear();
-            classes.add("CIS 162");
-            classes.add("CIS 163");
-        }
-        else if(successCenter.getTitle().equals("Math Center")){
-            classes.clear();
-            classes.add("MTH 201");
-            classes.add("MTH 202");
-        }
-        else if(successCenter.getTitle().equals("Statistics Tutor Center")){
-            classes.clear();
-            classes.add("STA 215");
-        }
-        else
-            classes.clear();
-        classes.add("Other");
+        // Access a Cloud Firestore instance from your Activity
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("success centers").document(successCenter.getKey())
+                .collection("coursesOffered")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            CoursesModel course = document.toObject(CoursesModel.class);
 
+                           classes.add(course.getCourseID());
+                        }
+                    }
+                    classes.add("Other");
+                    fillSpinner();
+                } else {
+                    // get documents failed
+                }
+            }
+        });
+    }
+
+    private void fillSpinner() {
         Spinner classSpinner = findViewById(R.id.classSelection);
         ArrayAdapter<String> classAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.schedule_spinner, classes);
         classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -67,5 +77,6 @@ public class schedulingPage extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
     }
 }

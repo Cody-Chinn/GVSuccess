@@ -5,20 +5,18 @@ public class Tutor {
     private String firstName;
     private String lastName;
     private String email;
-    private String password; // TODO: Is password needed here?
     private String successCenterCode;
     private boolean available;
 
     public Tutor(){};
 
     public Tutor(String tutorID, String firstName, String lastName,
-                 String email, String password, String successCenterCode,
+                 String email, String successCenterCode,
                  boolean available) {
         this.tutorID = tutorID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.successCenterCode = successCenterCode;
         this.available = available;
     }
@@ -53,14 +51,6 @@ public class Tutor {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getSuccessCenterCode() {

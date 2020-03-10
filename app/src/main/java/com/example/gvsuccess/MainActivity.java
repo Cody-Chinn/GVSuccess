@@ -13,7 +13,7 @@ import android.util.Log;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     // Access a Cloud Firestore instance from your Activity
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         items = new ArrayList<>();
         context = this;
+        DataAccess da = new DataAccess();
 
         try {
             // Get the users account that is logged in and set the title
@@ -53,25 +55,26 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, e.toString());
         }
 
-        db.collection("success centers")
-        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (document.exists()) {
-                            SuccessCenter successCenter = document.toObject(SuccessCenter.class);
-                            successCenter.setKey(document.getId());
-                            items.add(successCenter);
-                        }
-                    }
 
-                    createCardViews();
-                } else {
-                    // get documents failed
+
+        Task<QuerySnapshot> centers = da.getCenters();
+
+        centers.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+
+            public void onSuccess(QuerySnapshot snapshot) {
+                for (QueryDocumentSnapshot doc : snapshot) {
+                    if(doc.exists()) {
+                        SuccessCenter cent = doc.toObject(SuccessCenter.class);
+                        cent.setKey(doc.getId());
+                        items.add(cent);
+                    }
                 }
+                createCardViews();
             }
         });
+
+
     }
 
     public void createCardViews() {
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupCardViewClickListeners() {
+
         final Intent intent = new Intent(this, schedulingPage.class);
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override

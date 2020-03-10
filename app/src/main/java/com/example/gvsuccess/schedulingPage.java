@@ -16,6 +16,8 @@ import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TimePicker;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +38,7 @@ public class schedulingPage extends AppCompatActivity {
     private Button submitBtn;
     private Intent i;
     private SuccessCenter successCenter;
+    private String userEmail;
     TimePicker picker;
 
 
@@ -45,7 +48,8 @@ public class schedulingPage extends AppCompatActivity {
         tutorNames = new ArrayList<>();
         tutors = new ArrayList<>();
 
-
+        GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
+        userEmail = acc.getEmail();
         setContentView(R.layout.activity_scheduling_page);
 
         //Get name of center clicked
@@ -129,7 +133,7 @@ public class schedulingPage extends AppCompatActivity {
                         SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
 
                         long time = hour*100 + minute;
-                        boolean scheduled = sched.scheduleSession(successCenter, "123", selectedTutor.getTutorID(), "03:09:2020", time, 15);
+                        boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getTutorID(), "03:09:2020", time, 15);
 
                         if(scheduled == false) {
                             Log.v("sched", "Scheduling failed.");

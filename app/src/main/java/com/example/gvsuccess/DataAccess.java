@@ -80,7 +80,7 @@ public class DataAccess {
     }
 
     public void addSession(ScheduledSession session) {
-        String seshID = session.getStudentID() + ":"
+        String seshID = session.getStudentEmail() + ":"
                 + session.getTutorID() + ":"
                 + session.getDate() + ":"
                 + session.getStartTime();
@@ -88,7 +88,11 @@ public class DataAccess {
     }
 
     public void deleteSession(ScheduledSession session) {
-        db.collection("scheduled session").document(session.getStudentID())
+        String seshID = session.getStudentEmail() + ":"
+                + session.getTutorID() + ":"
+                + session.getDate() + ":"
+                + session.getStartTime();
+        db.collection("scheduled session").document(seshID)
                 .delete()
                 .addOnFailureListener(new OnFailureListener() {
                     @Override

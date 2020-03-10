@@ -2,7 +2,7 @@ package com.example.gvsuccess;
 
 public class ScheduledSession {
     private String tutorID;
-    private String studentID;
+    private String studentEmail;
     private String successCenterCode;
     private String date;
     public long startTime; // Measured in milliseconds from midnight
@@ -10,11 +10,11 @@ public class ScheduledSession {
 
     public ScheduledSession(){};
 
-    public ScheduledSession(String tutorID, String studentID,
+    public ScheduledSession(String tutorID, String studentEmail,
                             String successCenterCode, String date,
                             long startTime, long estimatedSessionLength) {
         this.tutorID = tutorID;
-        this.studentID = studentID;
+        this.studentEmail = studentEmail;
         this.successCenterCode = successCenterCode;
         this.date = date;
         this.startTime = startTime;
@@ -29,12 +29,12 @@ public class ScheduledSession {
         this.tutorID = tutorID;
     }
 
-    public String getStudentID() {
-        return studentID;
+    public String getStudentEmail() {
+        return studentEmail;
     }
 
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
+    public void setStudentEmail(String studentEmail) {
+        this.studentEmail = studentEmail;
     }
 
     public String getSuccessCenterCode() {

@@ -32,6 +32,8 @@ public class Scheduler {
 
     public boolean scheduleSession(SuccessCenter center, String studentID, String tutorID, String date, long time, long length) {
         boolean rtn = sessionAvailable(tutorID, date, time);
+
+        //if the session is available, add a new session
         if(rtn) {
             ScheduledSession newSession = new ScheduledSession(tutorID, studentID, center.getSuccessCenterCode()
                     , date, time, length);

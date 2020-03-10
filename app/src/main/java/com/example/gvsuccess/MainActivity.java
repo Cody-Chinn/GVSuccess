@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     // Access a Cloud Firestore instance from your Activity
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,26 +37,26 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         items = new ArrayList<>();
         context = this;
+        DataAccess da = new DataAccess();
 
-        db.collection("success centers")
-        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (document.exists()) {
-                            SuccessCenter successCenter = document.toObject(SuccessCenter.class);
-                            successCenter.setKey(document.getId());
-                            items.add(successCenter);
-                        }
+
+        Task<QuerySnapshot> centers = da.getCenters();
+
+        centers.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+
+            public void onSuccess(QuerySnapshot snapshot) {
+                for (QueryDocumentSnapshot doc : snapshot) {
+                    if(doc.exists()) {
+                        SuccessCenter cent = doc.toObject(SuccessCenter.class);
+                        items.add(cent);
                     }
-
-                    createCardViews();
-                } else {
-                    // get documents failed
                 }
+                createCardViews();
             }
         });
+
+
     }
 
     public void createCardViews() {
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupCardViewClickListeners() {
+
         final Intent intent = new Intent(this, schedulingPage.class);
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override

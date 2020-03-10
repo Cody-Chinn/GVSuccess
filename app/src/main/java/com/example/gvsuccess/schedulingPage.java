@@ -29,23 +29,28 @@ public class schedulingPage extends AppCompatActivity {
     private DataAccess data = new DataAccess();
     private Scheduler sched;
     private List<String> classes = new ArrayList<>();
+    private List<String> tutorNames;
+    private List<Tutor> tutors;
+    private Tutor selectedTutor;
     private ArrayList<ScheduledSession> sessions = new ArrayList<>();
     private Button submitBtn;
-
+    private Intent i;
+    private SuccessCenter successCenter;
     TimePicker picker;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        tutorNames = new ArrayList<>();
+        tutors = new ArrayList<>();
 
 
         setContentView(R.layout.activity_scheduling_page);
 
         //Get name of center clicked
-        Intent i = getIntent();
-        SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
+        i = getIntent();
+        successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
 
         //Set title for center clicked
         TextView tv = findViewById(R.id.centerTitle);
@@ -66,8 +71,26 @@ public class schedulingPage extends AppCompatActivity {
             }
         });
 
+        Task<QuerySnapshot> tut = data.getTutors();
+        tut.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            public void onSuccess(QuerySnapshot snapshot) {
+                for (QueryDocumentSnapshot doc : snapshot) {
+                    if(doc.exists()) {
+                        Tutor tutor = doc.toObject(Tutor.class);
+                        if(successCenter.getSuccessCenterCode().equals(tutor.getSuccessCenterCode())) {
+                            String tutorName = tutor.getLastName() + ", " + tutor.getFirstName();
+                            tutorNames.add(tutorName);
+                            tutors.add(tutor);
+                        }
+
+                    }
+                }
+                fillSpinner();
+
+            }
+        });
+
         picker = (TimePicker)findViewById(R.id.timePicker);
-        //picker.setIs24HourView(true);
 
         submitBtn = (Button)findViewById(R.id.submitB);
 
@@ -106,7 +129,7 @@ public class schedulingPage extends AppCompatActivity {
                         SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
 
                         long time = hour*100 + minute;
-                        boolean scheduled = sched.scheduleSession(successCenter, "124", "1234", "03:09:2020", time, 15);
+                        boolean scheduled = sched.scheduleSession(successCenter, "123", selectedTutor.getTutorID(), "03:09:2020", time, 15);
 
                         if(scheduled == false) {
                             Log.v("sched", "Scheduling failed.");
@@ -127,16 +150,34 @@ public class schedulingPage extends AppCompatActivity {
 
     private void fillSpinner() {
         Spinner classSpinner = findViewById(R.id.classSelection);
+        Spinner tutorSpinner = findViewById(R.id.tutorSelection);
+
         ArrayAdapter<String> classAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.schedule_spinner, classes);
+        ArrayAdapter<String> tutorAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.schedule_spinner, tutorNames);
+
         classAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tutorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         classSpinner.setAdapter(classAdapter);
+        tutorSpinner.setAdapter(tutorAdapter);
 
         classSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
                 String item = parent.getItemAtPosition(position).toString();
-                Log.v("spin", item);
                 Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        tutorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                String item = parent.getItemAtPosition(position).toString();
+                selectedTutor = tutors.get(position);
+                Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}

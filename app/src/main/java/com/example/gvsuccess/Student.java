@@ -5,7 +5,6 @@ public class Student {
     private String lastName;
     private String email;
 
-    private String successCenterCode;
 
 
     public Student() {};
@@ -13,13 +12,11 @@ public class Student {
 
 
     public Student( String fName, String lName,
-                   String email,
-                   String successCenterCode) {
+                   String email) {
 
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
-        this.successCenterCode = successCenterCode;
 
 
     }
@@ -49,14 +46,6 @@ public class Student {
         this.email = email;
     }
 
-
-    public String getSuccessCenterCode() {
-        return successCenterCode;
-    }
-
-    public void setSuccessCenterCode(String successCenterCode) {
-        this.successCenterCode = successCenterCode;
-    }
 
 
 }

@@ -1,11 +1,5 @@
 package com.example.gvsuccess;
 
-
-import android.util.Log;
-
-import com.google.android.gms.tasks.*;
-import com.google.firebase.firestore.*;
-
 import java.util.ArrayList;
 
 
@@ -17,7 +11,7 @@ public class Scheduler {
         this.currentSess = sesh;
     }
 
-    public boolean sessionAvailable(String tutorID, String date, long time) {
+    private boolean sessionAvailable(String tutorID, String date, long time) {
         boolean rtn = true;
         for(ScheduledSession sesh : this.currentSess) {
             if(sesh.getTutorID().equals(tutorID) && sesh.getDate().equals(date)) {

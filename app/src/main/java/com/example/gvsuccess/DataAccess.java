@@ -1,7 +1,5 @@
 package com.example.gvsuccess;
 
-
-import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -11,17 +9,10 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.android.gms.tasks.*;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
 
 public class DataAccess {
     FirebaseFirestore db;
@@ -117,6 +108,8 @@ public class DataAccess {
                 for (QueryDocumentSnapshot doc : snapshot) {
                     if(doc.exists()) {
                         Tutor tutor = doc.toObject(Tutor.class);
+
+                        //Note that tutors must be an instance variable
                         tutors.add(tutor);
                     }
                 }
@@ -134,6 +127,14 @@ public class DataAccess {
 
     public Task<QuerySnapshot> getStudents() {
         Task<QuerySnapshot> task = db.collection("students").get();
+        return task;
+    }
+
+    public Task<DocumentSnapshot> getStudent(String studentEmail) {
+        Task<DocumentSnapshot> task = db.collection("students")
+                .document(studentEmail).get();
+                //.whereEqualTo("email", studentEmail).get();
+
         return task;
     }
 

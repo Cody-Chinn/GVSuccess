@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.*;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
     private ArrayList<SuccessCenter> items;
     private Context context;
+    private String studentEmail;
+    private String studentName;
+    private String studentLastName;
+    private DataAccess da;
 
     private String mGoogleUsername;
 
@@ -39,10 +44,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
+        studentEmail = acc.getEmail();
+        studentName = acc.getGivenName();
+        studentLastName = acc.getFamilyName();
+
         recyclerView = findViewById(R.id.recyclerView);
         items = new ArrayList<>();
         context = this;
-        DataAccess da = new DataAccess();
+        da = new DataAccess();
+
+        //Check if student is registered in the database, if not create a new entry
+        Task<DocumentSnapshot> student = da.getStudent(studentEmail);
+        student.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+            public void onSuccess(DocumentSnapshot doc) {
+                if(!doc.exists()) {
+                    Student newStudent = new Student(studentName, studentLastName, studentEmail);
+                    da.addStudent(newStudent);
+                }
+
+            }
+        });
 
         try {
             // Get the users account that is logged in and set the title

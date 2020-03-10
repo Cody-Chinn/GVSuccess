@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("891760358455-0mns4d9tkq7apdtat57s7ujb7t20s83f.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -57,7 +58,10 @@ public class LoginActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
+        if(account != null) {
+            updateUI(account);
+        }
+
     }
 
     @Override

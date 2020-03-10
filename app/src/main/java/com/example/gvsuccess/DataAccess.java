@@ -34,12 +34,12 @@ public class DataAccess {
 
     }
     public void addStudent(Student student) {
-        db.collection("students").document(student.getStudentID()).set(student);
+        db.collection("students").document(student.getEmail()).set(student);
 
     }
 
     public void deleteStudent(Student student) {
-        db.collection("students").document(student.getStudentID())
+        db.collection("students").document(student.getEmail())
                 .delete()
                 .addOnFailureListener(new OnFailureListener() {
                     @Override

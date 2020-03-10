@@ -1,11 +1,10 @@
 package com.example.gvsuccess;
 
 public class Student {
-    private String studentID;
     private String firstName;
     private String lastName;
     private String email;
-    private String password; // TODO: Do we really need password in this class?
+
     private String successCenterCode;
 
 
@@ -13,27 +12,18 @@ public class Student {
 
 
 
-    public Student(String ID, String fName, String lName,
-                   String email, String password,
+    public Student( String fName, String lName,
+                   String email,
                    String successCenterCode) {
 
-        this.studentID = ID;
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
-        this.password = password;
         this.successCenterCode = successCenterCode;
 
 
     }
 
-    public String getStudentID() {
-        return studentID;
-    }
-
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -59,13 +49,6 @@ public class Student {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getSuccessCenterCode() {
         return successCenterCode;

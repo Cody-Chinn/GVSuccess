@@ -1,8 +1,9 @@
 package com.example.gvsuccess;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,10 +24,12 @@ import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class schedulingPage extends AppCompatActivity {
+public class schedulingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private DataAccess data = new DataAccess();
     private Scheduler sched;
     private List<String> classes = new ArrayList<>();
@@ -38,11 +42,16 @@ public class schedulingPage extends AppCompatActivity {
     private SuccessCenter successCenter;
     private String userEmail;
     TimePicker picker;
-
+    private Button displayDate;
+    private String selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Calendar cal = Calendar.getInstance();
+        selectedDate = cal.getTime().toString();
+        String currentDate = DateFormat.getDateInstance().format(cal.getTime());
+
         tutorNames = new ArrayList<>();
         tutors = new ArrayList<>();
 
@@ -57,6 +66,17 @@ public class schedulingPage extends AppCompatActivity {
         //Set title for center clicked
         TextView tv = findViewById(R.id.centerTitle);
         tv.setText(successCenter.getTitle());
+
+        displayDate = findViewById(R.id.btnDate);
+        displayDate.setText(currentDate);
+
+        displayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
 
         Task<QuerySnapshot> courses = data.getCourse(successCenter);
         courses.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -131,7 +151,7 @@ public class schedulingPage extends AppCompatActivity {
                         SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
 
                         long time = hour*100 + minute;
-                        boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getEmail(), "03:09:2020", time, 15);
+                        boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getEmail(), selectedDate, time, 15);
 
                         if(scheduled == false) {
                             Log.v("sched", "Scheduling failed.");
@@ -139,15 +159,20 @@ public class schedulingPage extends AppCompatActivity {
 
                     }
                 });
-
-
-
-
-
             }
         });
+    }
 
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        selectedDate = c.getTime().toString();
+        String date = DateFormat.getDateInstance().format(c.getTime());
 
+        displayDate.setText(date);
     }
 
     private void fillSpinner() {

@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
-        studentEmail = acc.getEmail();
-        studentName = acc.getGivenName();
-        studentLastName = acc.getFamilyName();
+        //GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
+        studentEmail = "smithb@mail.gvsu.edu"; // acc.getEmail();
+        studentName = "Bob"; //acc.getGivenName();
+        studentLastName = "Smith"; //acc.getFamilyName();
 
         recyclerView = findViewById(R.id.recyclerView);
         items = new ArrayList<>();

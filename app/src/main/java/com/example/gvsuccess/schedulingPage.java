@@ -56,7 +56,7 @@ public class schedulingPage extends AppCompatActivity implements DatePickerDialo
         tutors = new ArrayList<>();
 
         GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
-        userEmail = acc.getEmail();
+        userEmail = "smithb@mail.gvsu.edu"; //acc.getEmail();
         setContentView(R.layout.activity_scheduling_page);
 
         //Get name of center clicked

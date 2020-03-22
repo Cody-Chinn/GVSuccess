@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".schedulingPage">
+    tools:context=".SchedulingPage">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,40 +21,58 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/schedule_header"
-                android:textSize="16pt"
+                android:textSize="40sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/centerTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5pt"
+                android:layout_margin="5dp"
                 android:text=""
-                android:textSize="10pt"
+                android:textSize="20sp"
                 android:gravity="left"/>
 
             <Spinner
                 android:id="@+id/classSelection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5pt"/>
+                android:layout_margin="5dp"/>
 
             <TimePicker
                 android:id="@+id/timePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5pt"
-                android:layout_margin="5pt" />
+                android:layout_marginStart="5dp"
+                android:layout_margin="5dp" />
 
             <Button
                 android:id="@+id/submitB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5pt"
+                android:layout_margin="5dp"
                 android:gravity="center"
                 android:text="@string/submit"
                 android:textSize="10pt"
                 android:background="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OR"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"/>
+
+            <Button
+                android:id="@+id/checkInB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="@string/check_in"
+                android:textSize="10pt"
+                android:background="@color/colorPrimary"/>
+
         </LinearLayout>
     </ScrollView>
 

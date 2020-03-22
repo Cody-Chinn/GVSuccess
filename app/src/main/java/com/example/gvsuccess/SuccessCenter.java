@@ -1,6 +1,7 @@
 package com.example.gvsuccess;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class SuccessCenter implements Serializable {
     private String address;
@@ -10,6 +11,7 @@ public class SuccessCenter implements Serializable {
     private String successCenterCode;
     private String title;
     private String key;
+    private ArrayList<Student> studentsInLine;
 
     public SuccessCenter(){
 
@@ -23,6 +25,7 @@ public class SuccessCenter implements Serializable {
         this.successCenterCode = successCenterCode;
         this.title = title;
         this.key = key;
+        this.studentsInLine  = new ArrayList<>();
     }
 
     public String getAddress() {
@@ -76,4 +79,16 @@ public class SuccessCenter implements Serializable {
     public String getKey() { return key; }
 
     public void setKey(String key) { this.key = key; }
+
+    public int getLineLength(){
+        return studentsInLine.size();
+    }
+
+    public void addStudentToLine(Student student){
+        studentsInLine.add(student);
+    }
+
+    public void removeStudentFromLine(Student student){
+        studentsInLine.remove(student);
+    }
 }

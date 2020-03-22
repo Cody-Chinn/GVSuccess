@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class chemPage extends AppCompatActivity {
+public class ChemPage extends AppCompatActivity {
     private Button scheduleB;
 
     @Override
@@ -26,7 +26,7 @@ public class chemPage extends AppCompatActivity {
     }
 
     public void openSchedule() {
-        Intent intent = new Intent(this, schedulingPage.class);
+        Intent intent = new Intent(this, SchedulingPage.class);
         startActivity(intent);
     }
 }

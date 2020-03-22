@@ -1,30 +1,22 @@
 package com.example.gvsuccess;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     private String studentID;
     private String firstName;
     private String lastName;
     private String email;
-    private String password; // TODO: Do we really need password in this class?
-    private String successCenterCode;
-
 
     public Student() {};
 
-
-
     public Student(String ID, String fName, String lName,
-                   String email, String password,
-                   String successCenterCode) {
+                   String email) {
 
         this.studentID = ID;
         this.firstName = fName;
         this.lastName = lName;
         this.email = email;
-        this.password = password;
-        this.successCenterCode = successCenterCode;
-
-
     }
 
     public String getStudentID() {
@@ -58,22 +50,4 @@ public class Student {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSuccessCenterCode() {
-        return successCenterCode;
-    }
-
-    public void setSuccessCenterCode(String successCenterCode) {
-        this.successCenterCode = successCenterCode;
-    }
-
-
 }

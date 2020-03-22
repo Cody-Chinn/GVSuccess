@@ -5,34 +5,51 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class schedulingPage extends AppCompatActivity {
+public class SchedulingPage extends AppCompatActivity {
 
+    final private String TAG = "Scheduling Page";
     private List<String> classes = new ArrayList<>();
+    private Button mCheckInBtn;
+    private String mSelectedClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scheduling_page);
 
+        mCheckInBtn = findViewById(R.id.checkInB);
+
         //Get name of center clicked
         Intent i = getIntent();
-        SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
+        final SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
+        final Student student = (Student)i.getSerializableExtra("student");
 
         //Set title for center clicked
         TextView tv = findViewById(R.id.centerTitle);
@@ -60,6 +77,31 @@ public class schedulingPage extends AppCompatActivity {
                 }
             }
         });
+
+        mCheckInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkStudentIn(successCenter, student);
+            }
+        });
+    }
+
+    private void checkStudentIn(SuccessCenter successCenter, Student student){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference studentsInLine = db.collection("/success centers/" + successCenter.getKey() + "/students_in_line/");
+
+        Timestamp timestamp = Timestamp.now();
+
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("studentID", student.getStudentID());
+        docData.put("firstName", student.getFirstName());
+        docData.put("lastName", student.getLastName());
+        docData.put("email", student.getEmail());
+        docData.put("checkInTime", timestamp);
+        docData.put("className", mSelectedClass);
+
+        studentsInLine.add(docData);
+        Toast.makeText(this, "Your appointment has been scheduled!", Toast.LENGTH_SHORT).show();
     }
 
     private void fillSpinner() {
@@ -72,7 +114,7 @@ public class schedulingPage extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
                 String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
+                mSelectedClass = item;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}

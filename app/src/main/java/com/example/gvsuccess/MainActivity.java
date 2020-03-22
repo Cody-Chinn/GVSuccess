@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -82,12 +81,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupCardViewClickListeners() {
-        final Intent intent = new Intent(this, schedulingPage.class);
+        final Intent intent = new Intent(this, SchedulingPage.class);
+
+        // This will need to be taken out and replaced with getting the current signed in user
+        final Student student = new Student("G01234456","Foo", "Bar", "fbar@mail.gvsu.edu");
+
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SuccessCenter successCenter = items.get(position);
                 intent.putExtra("successCenter", successCenter);
+                intent.putExtra("student", student);
                 startActivity(intent);
             }
         });

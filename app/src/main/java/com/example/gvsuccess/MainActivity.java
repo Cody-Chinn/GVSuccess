@@ -1,6 +1,5 @@
 package com.example.gvsuccess;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -109,12 +107,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupCardViewClickListeners() {
 
-        final Intent intent = new Intent(this, schedulingPage.class);
+        final Student student = new Student(studentName, studentLastName, studentEmail);
+        final Intent intent = new Intent(this, SchedulingPage.class);
+
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 SuccessCenter successCenter = items.get(position);
                 intent.putExtra("successCenter", successCenter);
+                intent.putExtra("student", student);
                 startActivity(intent);
             }
         });

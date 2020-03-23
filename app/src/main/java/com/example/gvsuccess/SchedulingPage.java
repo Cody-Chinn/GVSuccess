@@ -21,15 +21,21 @@ import android.widget.TimePicker;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.*;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class schedulingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class SchedulingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
     private DataAccess data = new DataAccess();
     private Scheduler sched;
     private List<String> classes = new ArrayList<>();
@@ -37,13 +43,13 @@ public class schedulingPage extends AppCompatActivity implements DatePickerDialo
     private List<Tutor> tutors;
     private Tutor selectedTutor;
     private ArrayList<ScheduledSession> sessions = new ArrayList<>();
-    private Button submitBtn;
     private Intent i;
     private SuccessCenter successCenter;
-    private String userEmail;
+    private Student student;
     TimePicker picker;
-    private Button displayDate;
-    private String selectedDate;
+    private Button displayDate, submitBtn, checkInBtn;
+    private String selectedDate, mSelectedClass, userEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +68,20 @@ public class schedulingPage extends AppCompatActivity implements DatePickerDialo
         //Get name of center clicked
         i = getIntent();
         successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
+        student = (Student)i.getSerializableExtra("student");
 
         //Set title for center clicked
         TextView tv = findViewById(R.id.centerTitle);
         tv.setText(successCenter.getTitle());
+
+        checkInBtn = findViewById(R.id.checkInB);
+
+        checkInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkStudentIn(successCenter, student);
+            }
+        });
 
         displayDate = findViewById(R.id.btnDate);
         displayDate.setText(currentDate);
@@ -163,6 +179,24 @@ public class schedulingPage extends AppCompatActivity implements DatePickerDialo
         });
     }
 
+    public void checkStudentIn(SuccessCenter successCenter, Student student){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference studentsInLine = db.collection("/success centers/" + successCenter.getKey() + "/students_in_line/");
+
+        Timestamp timestamp = Timestamp.now();
+
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("firstName", student.getFirstName());
+        docData.put("lastName", student.getLastName());
+        docData.put("email", student.getEmail());
+        docData.put("checkInTime", timestamp);
+        docData.put("tutor", selectedTutor.getFirstName() + " " + selectedTutor.getLastName());
+        docData.put("className", mSelectedClass);
+
+        studentsInLine.add(docData);
+        Toast.makeText(this, "Your appointment has been scheduled!", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         Calendar c = Calendar.getInstance();
@@ -192,7 +226,7 @@ public class schedulingPage extends AppCompatActivity implements DatePickerDialo
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
                 String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
+                mSelectedClass = item;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -203,8 +237,6 @@ public class schedulingPage extends AppCompatActivity implements DatePickerDialo
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
                 String item = parent.getItemAtPosition(position).toString();
                 selectedTutor = tutors.get(position);
-                Toast.makeText(parent.getContext(), item, Toast.LENGTH_LONG).show();
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}

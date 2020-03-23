@@ -17,11 +17,11 @@
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter></activity>
-        <activity android:name=".schedulingPage" />
-        <activity android:name=".statsPage" />
-        <activity android:name=".mathPage" />
-        <activity android:name=".cisPage" />
-        <activity android:name=".chemPage" />
+        <activity android:name=".SchedulingPage" />
+        <activity android:name=".StatsPage" />
+        <activity android:name=".MathPage" />
+        <activity android:name=".CisPage" />
+        <activity android:name=".ChemPage" />
         <activity android:name=".MainActivity"/>
     </application>
 

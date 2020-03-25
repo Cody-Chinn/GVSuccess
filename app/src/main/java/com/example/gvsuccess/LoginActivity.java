@@ -16,7 +16,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.GoogleApiAvailabilityCache;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -96,8 +98,32 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUI(GoogleSignInAccount account){
+    private void updateUI(final GoogleSignInAccount account){
+        final String signInName = account.getDisplayName();
+        DataAccess da = new DataAccess();
+        Task<QuerySnapshot> tutors = da.getTutors();
+
+        tutors.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            public void onSuccess(QuerySnapshot doc) {
+                if(doc.toString().contains(signInName))
+                    tutorUI(account);
+                else
+                    studentUI(account);
+            }
+        });
+    }
+
+    private void studentUI(GoogleSignInAccount account){
         Intent openMain = new Intent(this, MainActivity.class);
+        try {
+            openMain.putExtra("account", account.getDisplayName());
+        }catch(Exception e){
+            Log.e(TAG, e.toString());
+        }
+        startActivity(openMain);
+    }
+    private void tutorUI(GoogleSignInAccount account){
+        Intent openMain = new Intent(this, adminOptions.class);
         try {
             openMain.putExtra("account", account.getDisplayName());
         }catch(Exception e){

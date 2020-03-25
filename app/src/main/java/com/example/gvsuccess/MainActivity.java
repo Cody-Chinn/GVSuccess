@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         //Check if student is registered in the database, if not create a new entry
         Task<DocumentSnapshot> student = da.getStudent(studentEmail);
         student.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-
             public void onSuccess(DocumentSnapshot doc) {
                 if(!doc.exists()) {
                     Student newStudent = new Student(studentName, studentLastName, studentEmail);

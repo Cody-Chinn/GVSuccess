@@ -21,10 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SchedulingPage" />
-        <activity android:name=".StatsPage" />
-        <activity android:name=".MathPage" />
-        <activity android:name=".CisPage" />
-        <activity android:name=".ChemPage" />
         <activity android:name=".MainActivity" />
     </application>
 

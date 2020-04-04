@@ -16,13 +16,20 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.GoogleApiAvailabilityCache;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
     final String TAG = "LOGIN ACTIVITY";
     GoogleSignInClient mGoogleSignInClient;
     final int RC_SIGN_IN = 1;
+    private DataAccess da = new DataAccess();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +104,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(GoogleSignInAccount account){
-        Intent openMain = new Intent(this, MainActivity.class);
+        Task<QuerySnapshot> tutors = da.getTutors();
+        final ArrayList<String> ts = new ArrayList<>();
+        Intent openScreen;
+
+        tutors.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot snapshots) {
+                for(QueryDocumentSnapshot snap: snapshots)
+                    ts.add(snap.get("email").toString());
+            }
+        });
+
+        if(ts.contains(account.getEmail()))
+            openScreen = new Intent(this, adminOptions.class);
+        else
+            openScreen = new Intent(this, MainActivity.class);
+
         try {
-            openMain.putExtra("account", account.getDisplayName());
+            openScreen.putExtra("account", account.getDisplayName());
         }catch(Exception e){
             Log.e(TAG, e.toString());
         }
-        startActivity(openMain);
+        startActivity(openScreen);
     }
 
 }

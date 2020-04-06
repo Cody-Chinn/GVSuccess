@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
-        studentEmail = "muske@tesla.com"; //acc.getEmail();
-        studentName = "Elon"; //acc.getGivenName();
-        studentLastName = "Musk"; //acc.getFamilyName();
+        studentEmail = acc.getEmail();
+        studentName = acc.getGivenName();
+        studentLastName = acc.getFamilyName();
 
         recyclerView = findViewById(R.id.recyclerView);
         items = new ArrayList<>();

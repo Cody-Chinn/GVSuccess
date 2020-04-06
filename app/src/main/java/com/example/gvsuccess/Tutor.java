@@ -6,17 +6,19 @@ public class Tutor {
     private String email;
     private String successCenterCode;
     private boolean available;
+    private String key;
 
     public Tutor(){};
 
     public Tutor(String firstName, String lastName,
                  String email, String successCenterCode,
-                 boolean available) {
+                 boolean available, String key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.successCenterCode = successCenterCode;
         this.available = available;
+        this.key = key;
     }
 
 
@@ -59,4 +61,8 @@ public class Tutor {
     public void setAvailable(boolean available) {
         this.available = available;
     }
+
+    public void setKey(String key) { this.key = key; }
+
+    public String getKey() { return key; }
 }

@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class mathPage extends AppCompatActivity {
+public class MathPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

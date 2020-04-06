@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class schedulingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class SchedulingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private DataAccess data = new DataAccess();
     private Scheduler sched;
     private List<String> classes = new ArrayList<>();

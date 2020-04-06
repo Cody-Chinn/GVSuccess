@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupCardViewClickListeners() {
 
-        final Intent intent = new Intent(this, schedulingPage.class);
+        final Intent intent = new Intent(this, SchedulingPage.class);
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {

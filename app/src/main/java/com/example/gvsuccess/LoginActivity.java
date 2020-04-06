@@ -116,7 +116,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        if(ts.contains(account.getEmail()))
+        if(account == null)
+            openScreen = new Intent(this, MainActivity.class);
+        else if(ts.contains(account.getEmail()))
             openScreen = new Intent(this, adminOptions.class);
         else
             openScreen = new Intent(this, MainActivity.class);

@@ -99,26 +99,37 @@ public class LoginActivity extends AppCompatActivity {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+            //updateUI(null);
         }
     }
 
-    private void updateUI(GoogleSignInAccount account){
+    private void updateUI(final GoogleSignInAccount account){
         Task<QuerySnapshot> tutors = da.getTutors();
         final ArrayList<String> ts = new ArrayList<>();
-        Intent openScreen;
+        final String userEmail = account.getEmail();
 
         tutors.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot snapshots) {
-                for(QueryDocumentSnapshot snap: snapshots)
-                    ts.add(snap.get("email").toString());
+                boolean isAdmin = false;
+                for(QueryDocumentSnapshot snap: snapshots) {
+                    if(snap.exists()) {
+                        Tutor tutor = snap.toObject(Tutor.class);
+                        ts.add(tutor.getEmail());
+                        Log.d("------TESTING------", ts.toString());
+                    }
+                }
+                if(ts.contains(userEmail))
+                    isAdmin = true;
+                launchScreen(isAdmin, account);
             }
         });
+    }
 
-        if(account == null)
-            openScreen = new Intent(this, MainActivity.class);
-        else if(ts.contains(account.getEmail()))
+    private void launchScreen(boolean admin, GoogleSignInAccount account) {
+        Intent openScreen;
+
+        if(admin)
             openScreen = new Intent(this, adminOptions.class);
         else
             openScreen = new Intent(this, MainActivity.class);

@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        items.clear();
         Task<QuerySnapshot> centers = da.getCenters();
 
         centers.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

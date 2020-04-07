@@ -135,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
         try {
             openScreen.putExtra("account", account.getDisplayName());
+            openScreen.putExtra("id", account);
         }catch(Exception e){
             Log.e(TAG, e.toString());
         }

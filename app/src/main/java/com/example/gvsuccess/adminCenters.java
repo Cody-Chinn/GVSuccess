@@ -3,13 +3,13 @@ package com.example.gvsuccess;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.content.Context;
+import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+//import com.google.android.gms.auth.api.signin.GoogleSignIn;
+//import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,8 +30,7 @@ public class adminCenters extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_centers);
 
-        GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
-
+        //GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
         centerList = findViewById(R.id.centerList);
         scList = new ArrayList<>();
         context = this;
@@ -65,6 +64,16 @@ public class adminCenters extends AppCompatActivity {
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             public void onItemClick(int position) {
                 SuccessCenter successCenter = scList.get(position);
+
+                try {
+                    Bundle extras = getIntent().getExtras();
+                    Tutor currentAdmin = (Tutor) extras.get("id"); //CHANGE TO GoogleSignInAccount
+                    currentAdmin.setAvailable(true);
+                    da.updateTutor(currentAdmin);
+                }catch(Exception e) {
+                    Log.e("TUTOR INFORMATION", e.toString());
+                }
+
                 intent.putExtra("successCenter", successCenter);
                 startActivity(intent);
             }

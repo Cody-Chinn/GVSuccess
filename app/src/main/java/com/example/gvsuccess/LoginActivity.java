@@ -116,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
                     if(snap.exists()) {
                         Tutor tutor = snap.toObject(Tutor.class);
                         ts.add(tutor.getEmail());
-                        Log.d("------TESTING------", ts.toString());
                     }
                 }
                 if(ts.contains(userEmail))

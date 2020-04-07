@@ -20,12 +20,10 @@ import java.util.ArrayList;
 public class adminCenters extends AppCompatActivity {
 
     private RecyclerView centerList;
-
     private Adapter adapter;
     private ArrayList<SuccessCenter> scList;
     private Context context;
     private DataAccess da;
-    private String GoogleUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +31,6 @@ public class adminCenters extends AppCompatActivity {
         setContentView(R.layout.activity_admin_centers);
 
         GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
-        //Potentially need information from account
 
         centerList = findViewById(R.id.centerList);
         scList = new ArrayList<>();
@@ -59,9 +56,11 @@ public class adminCenters extends AppCompatActivity {
         centerList.setLayoutManager(new LinearLayoutManager(context));
         adapter = new Adapter(context, scList);
         centerList.setAdapter(adapter);
+        setupCardViewListeners();
+    }
 
-        //CHANGE LINK LOCATION
-        final Intent intent = new Intent(this, MainActivity.class);
+    private void setupCardViewListeners() {
+        final Intent intent = new Intent(this, adminOptions.class);
 
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             public void onItemClick(int position) {

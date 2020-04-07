@@ -1,5 +1,6 @@
 package com.example.gvsuccess;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -21,18 +22,13 @@ import android.widget.TimePicker;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.*;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SchedulingPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -55,7 +51,7 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Calendar cal = Calendar.getInstance();
-        selectedDate = cal.getTime().toString();
+        selectedDate = DateFormat.getDateInstance().format(cal.getTime());
         String currentDate = DateFormat.getDateInstance().format(cal.getTime());
 
         tutorNames = new ArrayList<>();
@@ -138,7 +134,6 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
 
                 Task<QuerySnapshot> sess = data.getSessions();
 
-
                 sess.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
                     public void onSuccess(QuerySnapshot snapshot) {
@@ -163,9 +158,6 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
                             minute = picker.getCurrentMinute();
                         }
 
-                        Intent i = getIntent();
-                        SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
-
                         long time = hour*100 + minute;
                         boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getEmail(), selectedDate, time, 15);
 
@@ -180,20 +172,38 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
     }
 
     public void checkStudentIn(SuccessCenter successCenter, Student student){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference studentsInLine = db.collection("/success centers/" + successCenter.getKey() + "/students_in_line/");
+        Task<QuerySnapshot> sess = data.getSessions();
 
-        Timestamp timestamp = Timestamp.now();
+        sess.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
-        Map<String, Object> docData = new HashMap<>();
-        docData.put("firstName", student.getFirstName());
-        docData.put("lastName", student.getLastName());
-        docData.put("email", student.getEmail());
-        docData.put("checkInTime", timestamp);
-        docData.put("tutor", selectedTutor.getFirstName() + " " + selectedTutor.getLastName());
-        docData.put("className", mSelectedClass);
+            public void onSuccess(QuerySnapshot snapshot) {
+                Calendar cal = Calendar.getInstance();
+                String currentDate = DateFormat.getDateInstance().format(cal.getTime());
+                int hour = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
 
-        studentsInLine.add(docData);
+                sessions = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : snapshot) {
+                    if(doc.exists()) {
+                        ScheduledSession sesh = doc.toObject(ScheduledSession.class);
+                        sessions.add(sesh);
+
+                    }
+                }
+                sched = new Scheduler(sessions);
+
+                Intent i = getIntent();
+                SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
+
+                long time = hour*100 + minute;
+                boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getEmail(), selectedDate, time, 15);
+
+                if(scheduled == false) {
+                    Log.v("sched", "Scheduling failed.");
+                }
+
+            }
+        });
         Toast.makeText(this, "Your appointment has been scheduled!", Toast.LENGTH_SHORT).show();
     }
 
@@ -203,7 +213,7 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day);
-        selectedDate = c.getTime().toString();
+        selectedDate = DateFormat.getDateInstance().format(c.getTime());
         String date = DateFormat.getDateInstance().format(c.getTime());
 
         displayDate.setText(date);

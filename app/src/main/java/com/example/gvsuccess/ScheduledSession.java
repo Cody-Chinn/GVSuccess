@@ -1,17 +1,21 @@
 package com.example.gvsuccess;
 
+import com.google.firebase.Timestamp;
+
+import java.util.Date;
+
 public class ScheduledSession {
     private String tutorID;
     private String studentEmail;
     private String successCenterCode;
-    private String date;
+    private Timestamp date;
     public long startTime; // Measured in milliseconds from midnight
     private long estimatedSessionLength;
 
     public ScheduledSession(){};
 
     public ScheduledSession(String tutorID, String studentEmail,
-                            String successCenterCode, String date,
+                            String successCenterCode, Timestamp date,
                             long startTime, long estimatedSessionLength) {
         this.tutorID = tutorID;
         this.studentEmail = studentEmail;
@@ -45,11 +49,11 @@ public class ScheduledSession {
         this.successCenterCode = successCenterCode;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

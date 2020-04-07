@@ -1,6 +1,9 @@
 package com.example.gvsuccess;
 
+import com.google.firebase.Timestamp;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Scheduler {
@@ -11,7 +14,7 @@ public class Scheduler {
         this.currentSess = sesh;
     }
 
-    private boolean sessionAvailable(String tutorID, String date, long time) {
+    private boolean sessionAvailable(String tutorID, Timestamp date, long time) {
         boolean rtn = true;
         for(ScheduledSession sesh : this.currentSess) {
             if(sesh.getTutorID().equals(tutorID) && sesh.getDate().equals(date)) {
@@ -24,7 +27,7 @@ public class Scheduler {
         return rtn;
     }
 
-    public boolean scheduleSession(SuccessCenter center, String studentEmail, String tutorID, String date, long time, long length) {
+    public boolean scheduleSession(SuccessCenter center, String studentEmail, String tutorID, Timestamp date, long time, long length) {
         boolean rtn = sessionAvailable(tutorID, date, time);
 
         //if the session is available, add a new session

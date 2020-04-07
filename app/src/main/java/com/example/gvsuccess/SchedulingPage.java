@@ -28,8 +28,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,14 +51,19 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
     private Student student;
     TimePicker picker;
     private Button displayDate, submitBtn, checkInBtn;
-    private String selectedDate, mSelectedClass, userEmail;
+    private String mSelectedClass, userEmail;
+    private Date selectedDate;
+    private Timestamp stamp;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Calendar cal = Calendar.getInstance();
-        selectedDate = cal.getTime().toString();
+        selectedDate = cal.getTime();
+
+        stamp = new Timestamp(selectedDate);
+
         String currentDate = DateFormat.getDateInstance().format(cal.getTime());
 
         tutorNames = new ArrayList<>();
@@ -146,9 +154,22 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
                         sessions = new ArrayList<>();
                         for (QueryDocumentSnapshot doc : snapshot) {
                             if(doc.exists()) {
-                                ScheduledSession sesh = doc.toObject(ScheduledSession.class);
-                                sessions.add(sesh);
+                                Map data = doc.getData();
+                                // ScheduledSession sesh = doc.toObject(ScheduledSession.class);
+                                String tutorID = data.get("tutorID").toString();
+                                String studentEmail = data.get("studentEmail").toString();
+                                String successCenterCode = data.get("successCenterCode").toString();
+                                String dateStr = data.get("date").toString();
 
+                                Date date = convertStrToDate(dateStr);
+                                Timestamp stamp = new Timestamp(date);
+
+                                long startTime = Long.parseLong(data.get("startTime").toString());
+
+
+                                ScheduledSession sesh = new ScheduledSession(tutorID, studentEmail, successCenterCode, stamp, startTime, 15);
+
+                                sessions.add(sesh);
                             }
                         }
                         sched = new Scheduler(sessions);
@@ -167,9 +188,9 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
                         SuccessCenter successCenter = (SuccessCenter)i.getSerializableExtra("successCenter");
 
                         long time = hour*100 + minute;
-                        boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getEmail(), selectedDate, time, 15);
+                        boolean scheduled = sched.scheduleSession(successCenter, userEmail, selectedTutor.getEmail(), stamp, time, 15);
 
-                        if(scheduled == false) {
+                        if(!scheduled) {
                             Log.v("sched", "Scheduling failed.");
                         }
 
@@ -203,7 +224,7 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day);
-        selectedDate = c.getTime().toString();
+        selectedDate = c.getTime();
         String date = DateFormat.getDateInstance().format(c.getTime());
 
         displayDate.setText(date);
@@ -242,5 +263,71 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+    }
+
+    private Date convertStrToDate(String dateStr){
+        String[] tokens = dateStr.split(" ");
+        String converter = "";
+        Date date;
+
+        if(Integer.parseInt(tokens[1].replace(",","")) < 10){
+            converter += "0";
+        }
+
+        converter += tokens[1].replace(",", "");
+        converter += "/";
+
+        switch(tokens[0]){
+            case "Jan":
+                converter += "01/";
+                break;
+            case "Feb":
+                converter += "02/";
+                break;
+            case "Mar":
+                converter += "03/";
+                break;
+            case "Apr":
+                converter += "04/";
+                break;
+            case "May":
+                converter += "05/";
+                break;
+            case "Jun":
+                converter += "06/";
+                break;
+            case "Jul":
+                converter += "07/";
+                break;
+            case "Aug":
+                converter += "08/";
+                break;
+            case "Sep":
+                converter += "09/";
+                break;
+            case "Oct":
+                converter += "10/";
+                break;
+            case "Nov":
+                converter += "11/";
+                break;
+            case "Dec":
+                converter += "12/";
+                break;
+            default:
+                return null;
+        }
+
+        converter += tokens[2];
+        Log.i("convertStrToDate", converter);
+
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(converter);
+            return date;
+        }catch (ParseException e){
+            Log.e("Str to Date err: ", e.toString());
+        }
+
+        return null;
     }
 }

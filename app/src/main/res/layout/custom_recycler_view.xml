@@ -29,7 +29,7 @@
                 android:text="Title"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@id/textLocation"
+                app:layout_constraintBottom_toTopOf="@id/textOpen"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,14 +56,14 @@
                 app:layout_constraintBottom_toTopOf="@+id/textHours"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textTitle" />
+                app:layout_constraintTop_toBottomOf="@id/textOpen" />
 
             <TextView
                 android:id="@+id/textHours"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5pt"
-                android:text="Number of Tutors"
+                android:text="Hours"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/textWaitTime"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +75,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5pt"
-                android:text="Description"
+                android:text="Wait Time"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

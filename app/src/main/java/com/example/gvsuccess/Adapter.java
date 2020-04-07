@@ -1,6 +1,7 @@
 package com.example.gvsuccess;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,8 +82,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     long closeTime = (long) documentSnapshot.get("closeTime");
                     if (currentTime >= openTime && currentTime <= closeTime) {
                         holder.textOpen.setText("Open");
+                        holder.textOpen.setTextColor(Color.GREEN);
                     } else {
                         holder.textOpen.setText("Closed");
+                        holder.textOpen.setTextColor(Color.RED);
                     }
                     String openTimeString = getStandardTime((int) openTime);
                     String closeTimeString = getStandardTime((int) closeTime);

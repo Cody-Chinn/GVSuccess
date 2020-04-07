@@ -150,5 +150,9 @@ public class DataAccess {
                 .get();
         return task;
     }
+
+    public void updateTutor(Tutor tutor) {
+        db.collection("tutors").document(tutor.getEmail()).set(tutor);
+    }
 }
 

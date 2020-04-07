@@ -16,13 +16,20 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.internal.GoogleApiAvailabilityCache;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
     final String TAG = "LOGIN ACTIVITY";
     GoogleSignInClient mGoogleSignInClient;
     final int RC_SIGN_IN = 1;
+    private DataAccess da = new DataAccess();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,18 +99,47 @@ public class LoginActivity extends AppCompatActivity {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+            //updateUI(null);
         }
     }
 
-    private void updateUI(GoogleSignInAccount account){
-        Intent openMain = new Intent(this, MainActivity.class);
+    private void updateUI(final GoogleSignInAccount account){
+        Task<QuerySnapshot> tutors = da.getTutors();
+        final ArrayList<String> ts = new ArrayList<>();
+        final String userEmail = account.getEmail();
+
+        tutors.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot snapshots) {
+                boolean isAdmin = false;
+                for(QueryDocumentSnapshot snap: snapshots) {
+                    if(snap.exists()) {
+                        Tutor tutor = snap.toObject(Tutor.class);
+                        ts.add(tutor.getEmail());
+                    }
+                }
+                if(ts.contains(userEmail))
+                    isAdmin = true;
+                launchScreen(isAdmin, account);
+            }
+        });
+    }
+
+    private void launchScreen(boolean admin, GoogleSignInAccount account) {
+        Intent openScreen;
+
+        if(admin)
+            openScreen = new Intent(this, adminOptions.class);
+        else
+            openScreen = new Intent(this, MainActivity.class);
+
         try {
-            openMain.putExtra("account", account.getDisplayName());
+            openScreen.putExtra("account", account.getDisplayName());
+            openScreen.putExtra("id", account);
         }catch(Exception e){
             Log.e(TAG, e.toString());
         }
-        startActivity(openMain);
+        startActivity(openScreen);
     }
 
 }

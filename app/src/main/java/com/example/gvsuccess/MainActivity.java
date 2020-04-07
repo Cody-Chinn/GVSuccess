@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private String studentName;
     private String studentLastName;
     private DataAccess da;
-
     private String mGoogleUsername;
 
     // Access a Cloud Firestore instance from your Activity

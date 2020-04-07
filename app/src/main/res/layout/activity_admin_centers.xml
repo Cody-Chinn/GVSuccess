@@ -4,28 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChemPage">
+    tools:context=".adminCenters">
 
     <TextView
-        android:id="@+id/chemHeader"
+        android:id="@+id/adminCenterHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chemistry Center"
-        android:textSize="18pt"
-        android:textStyle="bold"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        android:padding="10sp"
+        android:text="Select a Center"
+        android:textSize="14pt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/schedule"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/centerList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Schedule"
-        android:textSize="12pt"
-        android:gravity="left"
-        android:layout_marginTop="3pt"
-        app:layout_constraintTop_toBottomOf="@id/chemHeader"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/adminCenterHeader"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

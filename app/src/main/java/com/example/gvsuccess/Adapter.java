@@ -1,10 +1,17 @@
 package com.example.gvsuccess;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -38,20 +45,46 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         // bind the textview with data received
-        SuccessCenter successCenter = data.get(position);
+        final SuccessCenter successCenter = data.get(position);
         String openHours = "<ADD HOURS HERE FROM DB>";
-        String waitTime = "<ADD ESTIMATED WAIT TIME HERE>";
         String open = successCenter.isOpen()? "Open": "Closed";
 
 
         holder.textTitle.setText(successCenter.getTitle());
         holder.textLocation.setText((successCenter.getAddress()));
         holder.textHours.setText(openHours);
-        holder.textWaitTime.setText(waitTime);
         holder.textOpen.setText(open);
+
+        DataAccess da = new DataAccess();
+        Task<QuerySnapshot> schedSessions = da.getCheckedIn(successCenter.getSuccessCenterCode());
+        schedSessions.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            public void onSuccess(QuerySnapshot snapshot) {
+                for (QueryDocumentSnapshot doc : snapshot) {
+                    if(doc.exists()) {
+                        ScheduledSession schedSession = doc.toObject(ScheduledSession.class);
+                        Log.d("ScheduledSession", schedSession.getStudentEmail());
+                    }
+                }
+                int numSessions = snapshot.size();
+                int waitTime = numSessions * 15 / successCenter.getNumAvailableTutors();
+                int hours = waitTime / 60;
+                int minutes = waitTime % 60;
+                String time = Integer.toString(minutes) + " minutes";
+                if (hours > 0) {
+                    time = Integer.toString(hours) + " hours and " + time;
+                }
+                String waitTimeString = "Estimated Wait Time: " + time;
+                holder.textWaitTime.setText(waitTimeString);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Query Failed", e.toString());
+            }
+        });
     }
 
     @Override

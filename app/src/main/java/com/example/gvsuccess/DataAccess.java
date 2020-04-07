@@ -11,7 +11,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class DataAccess {
@@ -153,6 +156,24 @@ public class DataAccess {
 
     public void updateTutor(Tutor tutor) {
         db.collection("tutors").document(tutor.getEmail()).set(tutor);
+    }
+
+
+    public Task<QuerySnapshot> getCheckedIn(String successCenterCode) {
+        Calendar cal = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance().format(cal.getTime());
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int nextHour = hour + 1;
+        int minute = cal.get(Calendar.MINUTE) - 15;
+        hour = hour * 100 + minute;
+        nextHour = nextHour * 100 + minute;
+        Task<QuerySnapshot> task = db.collection("scheduled session")
+                .whereEqualTo("successCenterCode", successCenterCode)
+                .whereEqualTo("date", currentDate)
+                .whereGreaterThanOrEqualTo("startTime", hour)
+                .whereLessThanOrEqualTo("startTime", nextHour)
+                .get();
+        return task;
     }
 }
 

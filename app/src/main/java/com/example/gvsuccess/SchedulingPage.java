@@ -141,8 +141,12 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
                         sessions = new ArrayList<>();
                         for (QueryDocumentSnapshot doc : snapshot) {
                             if(doc.exists()) {
-                                ScheduledSession sesh = doc.toObject(ScheduledSession.class);
-                                sessions.add(sesh);
+                                try{
+                                    ScheduledSession sesh = doc.toObject(ScheduledSession.class);
+                                    sessions.add(sesh);
+                                } catch(Exception e){
+                                    Log.e("Scheduling Page", e.toString());
+                                }
 
                             }
                         }

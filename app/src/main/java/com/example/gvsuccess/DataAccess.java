@@ -175,5 +175,14 @@ public class DataAccess {
                 .get();
         return task;
     }
+
+    public Task<DocumentSnapshot> getHours(String dayOfWeek, SuccessCenter successCenter) {
+        Task<DocumentSnapshot> task = db.collection("success centers")
+                .document(successCenter.getKey())
+                .collection("hours")
+                .document(dayOfWeek)
+                .get();
+        return task;
+    }
 }
 

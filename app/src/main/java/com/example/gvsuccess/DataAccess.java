@@ -151,8 +151,10 @@ public class DataAccess {
         return task;
     }
 
-    public void updateAvailable(String email, boolean flag) {
+    public void incrementAvailable(String email, SuccessCenter center, boolean flag) {
         db.collection("tutors").document(email).update("available", flag);
+        int num = center.getNumAvailableTutors();
+        db.collection("success centers").document(center.getKey()).update("numAvailableTutors", (num+1));
     }
 }
 

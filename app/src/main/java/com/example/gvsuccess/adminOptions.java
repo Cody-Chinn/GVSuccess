@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class adminOptions extends AppCompatActivity {
     private Button getHelpB, asTutorB;
+    private String ex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,15 @@ public class adminOptions extends AppCompatActivity {
 
     public void openHelpCenters(){
         Intent intent = new Intent(this, MainActivity.class);
+        ex = getIntent().getExtras().getString("account");
+        intent.putExtra("account", ex);
         startActivity(intent);
     }
 
     public void openTutorCenters(){
         Intent intent = new Intent(this, adminCenters.class);
+        ex = getIntent().getExtras().getString("email");
+        intent.putExtra("email", ex);
         startActivity(intent);
     }
 }

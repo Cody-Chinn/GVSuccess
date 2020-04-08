@@ -128,16 +128,13 @@ public class LoginActivity extends AppCompatActivity {
     private void launchScreen(boolean admin, GoogleSignInAccount account) {
         Intent openScreen;
 
-        if(admin)
+        if(admin) {
             openScreen = new Intent(this, adminOptions.class);
-        else
+            openScreen.putExtra("email", account.getEmail());
+        }
+        else {
             openScreen = new Intent(this, MainActivity.class);
-
-        try {
             openScreen.putExtra("account", account.getDisplayName());
-            openScreen.putExtra("id", account);
-        }catch(Exception e){
-            Log.e(TAG, e.toString());
         }
         startActivity(openScreen);
     }

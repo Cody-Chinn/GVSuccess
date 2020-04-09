@@ -154,8 +154,8 @@ public class DataAccess {
         return task;
     }
 
-    public void updateTutor(Tutor tutor) {
-        db.collection("tutors").document(tutor.getEmail()).set(tutor);
+    public void updateAvailable(String email, boolean flag) {
+        db.collection("tutors").document(email).update("available", flag);
     }
 
 

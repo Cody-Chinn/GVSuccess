@@ -68,12 +68,14 @@ public class adminCenters extends AppCompatActivity {
 
                 try {
                     email = getIntent().getExtras().getString("email");
-                    da.incrementAvailable(email, successCenter, true);
+                    da.incrementAvailable(email, successCenter.getKey());
                 }catch(Exception e) {
                     Log.e("TUTOR INFORMATION", e.toString());
                 }
 
                 intent.putExtra("successCenter", successCenter);
+                intent.putExtra("email", email);
+
                 startActivity(intent);
             }
         });

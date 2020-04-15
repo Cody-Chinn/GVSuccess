@@ -18,6 +18,15 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/studentList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/adminStudentsHeader"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
     <Button
         android:id="@+id/signout"
         android:layout_width="wrap_content"

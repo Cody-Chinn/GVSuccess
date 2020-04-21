@@ -6,7 +6,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.Task;
@@ -18,6 +20,8 @@ public class DataAccess {
     FirebaseFirestore db;
     public ArrayList<Tutor> tutors;
     Handler handler;
+    private long num;
+
     public DataAccess() {
         db = FirebaseFirestore.getInstance();
         handler = new Handler(Looper.getMainLooper());
@@ -151,8 +155,42 @@ public class DataAccess {
         return task;
     }
 
-    public void updateTutor(Tutor tutor) {
-        db.collection("tutors").document(tutor.getEmail()).set(tutor);
+    public void incrementAvailable(String email, final String center) {
+        db.collection("tutors").document(email).update("available", true);
+
+        DocumentReference dr = db.collection("success centers").document(center);
+        dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if(document.exists()) {
+                    num = document.getLong("numAvailableTutors");
+                    db.collection("success centers").document(center).update("numAvailableTutors", (num+1));
+                    Log.d("---SUCCESS---", "Should be incremented");
+                }
+                else
+                    Log.e("---FAILURE---", "Decrement failed to retrieve data");
+            }
+        });
+    }
+
+    public void decrementAvailable(String email, final String center) {
+        db.collection("tutors").document(email).update("available", false);
+
+        DocumentReference dr = db.collection("success centers").document(center);
+        dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if(document.exists()) {
+                    num = document.getLong("numAvailableTutors");
+                    db.collection("success centers").document(center).update("numAvailableTutors", (num-1));
+                    Log.d("---SUCCESS---", "Should be decremented");
+                }
+                else
+                    Log.e("---FAILURE---", "Decrement failed to retrieve data");
+            }
+        });
     }
 }
 

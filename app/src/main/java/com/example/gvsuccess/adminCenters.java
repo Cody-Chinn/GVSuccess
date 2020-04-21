@@ -24,6 +24,7 @@ public class adminCenters extends AppCompatActivity {
     private ArrayList<SuccessCenter> scList;
     private Context context;
     private DataAccess da;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +60,22 @@ public class adminCenters extends AppCompatActivity {
     }
 
     private void setupCardViewListeners() {
-        final Intent intent = new Intent(this, adminOptions.class);
+        final Intent intent = new Intent(this, adminStudents.class);
 
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             public void onItemClick(int position) {
                 SuccessCenter successCenter = scList.get(position);
 
                 try {
-                    Bundle extras = getIntent().getExtras();
-                    Tutor currentAdmin = (Tutor) extras.get("id"); //CHANGE TO GoogleSignInAccount
-                    currentAdmin.setAvailable(true);
-                    da.updateTutor(currentAdmin);
+                    email = getIntent().getExtras().getString("email");
+                    da.incrementAvailable(email, successCenter.getKey());
                 }catch(Exception e) {
                     Log.e("TUTOR INFORMATION", e.toString());
                 }
 
                 intent.putExtra("successCenter", successCenter);
+                intent.putExtra("email", email);
+
                 startActivity(intent);
             }
         });

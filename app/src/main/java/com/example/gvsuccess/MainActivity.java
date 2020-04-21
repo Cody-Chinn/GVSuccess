@@ -13,7 +13,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -31,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private String studentLastName;
     private DataAccess da;
     private String mGoogleUsername;
-
-    // Access a Cloud Firestore instance from your Activity
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +49,11 @@ public class MainActivity extends AppCompatActivity {
         //Check if student is registered in the database, if not create a new entry
         Task<DocumentSnapshot> student = da.getStudent(studentEmail);
         student.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-
             public void onSuccess(DocumentSnapshot doc) {
                 if(!doc.exists()) {
                     Student newStudent = new Student(studentName, studentLastName, studentEmail);
                     da.addStudent(newStudent);
                 }
-
             }
         });
 
@@ -70,18 +63,18 @@ public class MainActivity extends AppCompatActivity {
             mGoogleUsername = mExtras.getString("account");
 
             setTitle("Welcome, " + mGoogleUsername);
-
         } catch(Exception e) {
             Log.e(TAG, e.toString());
         }
+    }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        items.clear();
         Task<QuerySnapshot> centers = da.getCenters();
 
         centers.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
-
             public void onSuccess(QuerySnapshot snapshot) {
                 for (QueryDocumentSnapshot doc : snapshot) {
                     if(doc.exists()) {
@@ -93,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 createCardViews();
             }
         });
-
-
     }
 
     public void createCardViews() {
@@ -105,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupCardViewClickListeners() {
-
         final Student student = new Student(studentName, studentLastName, studentEmail);
         final Intent intent = new Intent(this, SchedulingPage.class);
 

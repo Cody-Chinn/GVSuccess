@@ -168,9 +168,12 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
                         if(scheduled == false) {
                             Log.v("sched", "Scheduling failed.");
                         }
-
                     }
                 });
+
+                Intent intent = new Intent(SchedulingPage.this, AppointmentConfirmation.class);
+                intent.putExtra("confirmation_msg", "Your appointment has been scheduled!");
+                startActivity(intent);
             }
         });
     }
@@ -191,7 +194,6 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
                     if(doc.exists()) {
                         ScheduledSession sesh = doc.toObject(ScheduledSession.class);
                         sessions.add(sesh);
-
                     }
                 }
                 sched = new Scheduler(sessions);
@@ -208,7 +210,9 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
 
             }
         });
-        Toast.makeText(this, "Your appointment has been scheduled!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AppointmentConfirmation.class);
+        intent.putExtra("confirmation_msg", "You have been checked into the success center!");
+        startActivity(intent);
     }
 
     @Override

@@ -194,7 +194,6 @@ public class SchedulingPage extends AppCompatActivity implements DatePickerDialo
                     if(doc.exists()) {
                         ScheduledSession sesh = doc.toObject(ScheduledSession.class);
                         sessions.add(sesh);
-
                     }
                 }
                 sched = new Scheduler(sessions);

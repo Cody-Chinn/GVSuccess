@@ -62,19 +62,20 @@ public class adminCenters extends AppCompatActivity {
     private void setupCardViewListeners() {
         final Intent intent = new Intent(this, adminStudents.class);
 
-        try {
-            Intent I = getIntent();
-            email = I.getExtras().getString("email");
-            da.updateAvailable(email, true);
-        }catch(Exception e) {
-            Log.e("TUTOR INFORMATION", e.toString());
-        }
-
         adapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             public void onItemClick(int position) {
                 SuccessCenter successCenter = scList.get(position);
 
+                try {
+                    email = getIntent().getExtras().getString("email");
+                    da.incrementAvailable(email, successCenter.getKey());
+                }catch(Exception e) {
+                    Log.e("TUTOR INFORMATION", e.toString());
+                }
+
                 intent.putExtra("successCenter", successCenter);
+                intent.putExtra("email", email);
+
                 startActivity(intent);
             }
         });

@@ -1,5 +1,4 @@
 # GVSuccess
-GV Success is a mobile app and website that lets students see how busy the tutoring centers are and sign up for help on the way in.
+GVSuccess is a mobile app intended to be used to provide a better, more efficient visit to Grand Valley’s success centers located throughout campus. It allows GVSU students to sign in and check wait times without having to be at a success center. Along with checking in early, students can also reserve a time slot for a future session at the success center with the scheduling feature. Tutors also have functionalities associated with the app. They have the ability to sign in either as a student or as a tutor, and the database will update itself accordingly. Tutors signed into a success center will be able to see a list of students currently seeking help, and will be able to remove them from the list as needed. Built with Android and Firebase, we've used current technologies to make the app easy to use, and easy to manage.
 
-# Sprint 2
-Using firebase as our database.
+
